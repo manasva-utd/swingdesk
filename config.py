@@ -4,7 +4,7 @@ Every value is a plain-English rule you can read and argue with.
 """
 
 # ---------- Money & risk ----------
-CAPITAL = 5000            # total trading capital in INR
+CAPITAL = 15000           # total trading capital in INR
 RISK_PER_TRADE_PCT = 2.0  # max you can LOSE on one trade, as % of capital (2% of 5000 = Rs 100)
 MAX_OPEN_POSITIONS = 1    # with Rs 5,000, one position at a time keeps charges sane
 MAX_POSITION_PCT = 100.0  # max % of capital in a single stock
@@ -15,7 +15,7 @@ EXIT_MODE = "trail"       # "trail" = no fixed exit; stop to entry at +1R, then 
                           # "target" = sell everything at Target 1
 NEAR_HIGH_PCT = 8         # stock must be within 8% of its 52-week high
 AMBER_TRADES = False      # AMBER market = no new buys (tested: AMBER-day trades lost money)
-INTRADAY_EXPOSURE = 25000 # intraday (MIS) margin ~5x: Rs 5k can hold ~Rs 25k of stock for the day. Max loss per trade is still RISK_PER_TRADE_PCT of CAPITAL.
+INTRADAY_MARGIN_X = 5     # intraday (MIS) margin ~5x: Rs 15k can hold ~Rs 75k of stock for the day. Max loss per trade is still RISK_PER_TRADE_PCT of CAPITAL.
 ENTRY_VALID_DAYS = 2      # cancel the buy order if not filled within 2 sessions
 
 # ---------- Stock filters ----------

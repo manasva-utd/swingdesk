@@ -4,7 +4,9 @@ prices and real Angel One charges, so the results are an honest test of the rule
 
 Strategies logged:
   INTRADAY_ORB  - 10:30 AM opening-range ideas (long or short), closed by 3:15 PM. Top 2 a day.
-  SWING_5D      - best daily setups from the evening scan, entry next day(s) via buy-stop,
+  DIP_BUY       - the default, tested strategy (see dipbuy.py): limit buy next session, sell 50% at +1 ATR,
+                  rest on the first close above the prior day's high, 10 days max. ALL signals are logged.
+  SWING_5D      - (retired) best daily setups from the evening scan, entry next day(s) via buy-stop,
                   max 5 sessions, stop to entry at +1R, then trail under the 20-day EMA. Top 2 a day.
                   Taken EVEN when the market regime is RED (tagged), so we can measure the filter.
 
@@ -21,24 +23,26 @@ import pandas as pd
 import charges
 import config
 import data
+import dipbuy
 import indicators as ind
 import intraday
 import scanner
 import strategy
 
 PAPER_FILE = os.path.join("paper", "paper_trades.csv")
-COLS = ["id", "strategy", "symbol", "side", "regime", "status", "signal_date", "entry_date", "entry",
+COLS = ["id", "strategy", "symbol", "side", "regime", "status", "signal_date", "entry_date", "plan_entry", "entry",
         "stop", "target", "qty", "exit_date", "exit", "reason", "gross", "charges", "net", "R",
         "R_gross", "score", "why"]
 SWING_HOLD = 5
 PER_DAY = 2
 
 
-def load(path: str = PAPER_FILE) -> pd.DataFrame:
+def load(path: str | None = None) -> pd.DataFrame:
+    path = path or PAPER_FILE
     if not os.path.exists(path):
         return pd.DataFrame(columns=COLS)
     df = pd.read_csv(path, dtype=str).fillna("")
-    for c in ["entry", "stop", "target", "exit", "gross", "charges", "net", "R", "R_gross", "score"]:
+    for c in ["plan_entry", "entry", "stop", "target", "exit", "gross", "charges", "net", "R", "R_gross", "score"]:
         if c not in df.columns:
             df[c] = None
         df[c] = pd.to_numeric(df[c], errors="coerce")
@@ -46,7 +50,8 @@ def load(path: str = PAPER_FILE) -> pd.DataFrame:
     return df
 
 
-def save(df: pd.DataFrame, path: str = PAPER_FILE):
+def save(df: pd.DataFrame, path: str | None = None):
+    path = path or PAPER_FILE
     os.makedirs(os.path.dirname(path), exist_ok=True)
     df[COLS].to_csv(path, index=False)
 
@@ -196,11 +201,62 @@ def new_swing_signals(df: pd.DataFrame, universe: str = "Nifty 200", day=None) -
     return df
 
 
+def settle_dip(df: pd.DataFrame) -> pd.DataFrame:
+    live = df[(df["strategy"] == "DIP_BUY") & (df["status"].isin(["PENDING", "OPEN"]))]
+    for idx, r in live.iterrows():
+        try:
+            d = dipbuy.prep(data.get_history(r["symbol"], max_age_hours=1))
+        except Exception:
+            continue
+        res = dipbuy.replay(d, r["signal_date"], float(r["entry"]) if r["status"] == "PENDING" else float(r["plan_entry"] if pd.notna(r["plan_entry"]) else r["entry"]),
+                            float(r["stop"]), float(r["target"]), int(r["qty"]))
+        if res["status"] == "PENDING":
+            continue
+        df.at[idx, "status"] = res["status"]
+        for k in ("entry_date", "entry", "exit_date", "exit", "reason", "gross", "charges", "net"):
+            if k in res:
+                df.at[idx, k] = res[k]
+        if res["status"] == "CLOSED":
+            risk = (float(res["entry"]) - (float(res["stop"]))) * int(r["qty"])
+            df.at[idx, "R"] = round(res["net"] / risk, 2) if risk else None
+            df.at[idx, "R_gross"] = round(res["gross"] / risk, 2) if risk else None
+            legs = "; ".join(f"{q}@{p} {t}" for p, q, t in res.get("legs", []))
+            df.at[idx, "why"] = (str(r["why"]) + " | sold " + legs)[:300]
+        elif res["status"] == "EXPIRED":
+            df.at[idx, "reason"] = res.get("reason", "")
+    return df
+
+
+def new_dip_signals(df: pd.DataFrame, universe: str = "Nifty 200") -> pd.DataFrame:
+    syms = data.get_universe(universe)
+    frames = {}
+    for s in syms:
+        try:
+            frames[s] = data.get_history(s, max_age_hours=6)
+        except Exception:
+            pass
+    nifty = data.get_history(config.INDEX_SYMBOL, max_age_hours=6)
+    buys, _ = dipbuy.scan(frames, nifty=nifty)
+    reg = strategy.market_regime(nifty).label
+    logged = set(zip(df["strategy"], df["symbol"], df["signal_date"])) if len(df) else set()
+    for p in buys:
+        if ("DIP_BUY", p.symbol, p.date) in logged:
+            continue
+        row = {"id": _next_id(df), "strategy": "DIP_BUY", "symbol": p.symbol, "side": "LONG", "regime": reg,
+               "status": "PENDING", "signal_date": p.date, "entry_date": "", "plan_entry": p.entry, "entry": p.entry,
+               "stop": p.stop, "target": p.half_target, "qty": p.qty, "exit_date": "", "exit": None, "reason": "", "gross": None,
+               "charges": None, "net": None, "R": None, "R_gross": None, "score": p.rsi2,
+               "why": f"dip {p.drop3:+.1f}% in 3d, RSI2 {p.rsi2}"}
+        df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
+    return df
+
+
 def evening():
     df = load()
     df = settle_intraday(df)
-    df = settle_swing(df)
-    df = new_swing_signals(df)
+    df = settle_swing(df)      # finishes any old SWING_5D trades; no new ones are opened
+    df = settle_dip(df)
+    df = new_dip_signals(df)
     save(df)
     return df
 

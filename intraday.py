@@ -80,7 +80,7 @@ def _session(df: pd.DataFrame, day) -> pd.DataFrame:
 def analyze(sym: str, df: pd.DataFrame, nifty: pd.DataFrame, day, cutoff: time = SCAN_CUTOFF,
             capital: float | None = None) -> IntradayIdea | None:
     capital = capital or config.CAPITAL
-    exposure = config.INTRADAY_EXPOSURE
+    exposure = capital * config.INTRADAY_MARGIN_X
     today = _session(df, day)
     prev_days = sorted({d for d in df.index.date if d < day})
     if len(today) < 5 or len(prev_days) < 10:

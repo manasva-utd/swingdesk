@@ -1,4 +1,35 @@
-# SwingDesk — personal NSE swing-trading signal dashboard
+# SwingDesk — personal NSE trading assistant
+
+**Default strategy: DIP-BUY in strong stocks** (see `dipbuy.py`). You place the orders in Angel One; SwingDesk finds the trade,
+gives exact levels, draws them on a chart, and paper-trades every signal automatically.
+
+## Tested results (run 20 Oct 2026)
+Nifty 200 · Oct 2021 – Oct 2026 · ₹15,000 · one trade at a time · all Angel One charges · honest fills
+
+| Window | Trades | Winners after charges | Net |
+|---|---|---|---|
+| 5 years | 160 (~3/month) | **78%** | +₹14,510 (~23%/yr, no compounding), worst drawdown −₹1,834 |
+| 2025-26 (never used for tuning) | 64 | **75%** | +₹4,327 |
+| Last 40 sessions, every filled signal | 25 | **72%** | +₹1,779 |
+
+Average win +1.6%, average loss −2.8%, worst trade −12.7%, typical hold ~3 days. A full stop-loss hit happens ~1 in 20 trades.
+Splitting ₹15k into 2 × ₹7.5k trades dropped the win rate to 56-61% (charges eat the small wins) — so one trade at a time.
+
+## The rules (plain English)
+1. Stock above its 200-day average, 50-day above 200-day (strong uptrend). Liquid (₹25 Cr+/day). At least 2 shares affordable.
+2. Fell 3%+ in 3 days and 2-day RSI < 10 (very oversold).
+3. **Limit BUY** 1 ATR below today's close, valid next session only (≈4 in 5 don't fill — by design).
+4. **Sell 50%** at buy + 1 ATR, then move the stop to the buy price.
+5. **Sell the rest** on the first daily close above the previous day's high, or after 10 sessions.
+6. **Stop loss** 3 ATR below the buy price.
+
+(ATR = the stock's normal daily range.) Lab scripts: `lab_dip.py`, `lab_dip2.py` (480 variants), `lab_portfolio.py` (real-money test).
+
+---
+
+# (Earlier work, kept for reference)
+
+## SwingDesk v1 — breakout/pullback dashboard
 
 A free, local tool that tells you **whether** a stock is a swing trade right now, **at what price** to buy,
 **where** to put the stop loss, **where** to take profit, **how many shares** to buy, and **what it costs** at Angel One.
