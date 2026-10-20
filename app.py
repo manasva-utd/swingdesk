@@ -17,7 +17,9 @@ import config
 import data
 import indicators as ind
 import journal
+import intraday
 import news
+import paper
 import scanner
 import strategy
 
@@ -170,9 +172,69 @@ def tonight_scan(universe, demo, capital, risk_pct, day):
     return scanner.scan(syms, demo=demo, capital=capital)
 
 
-tabs = st.tabs(["🌙 Tonight", "🧭 Market", "🔎 Analyze a stock", "📡 Scanner", "🧪 Backtest",
+tabs = st.tabs(["🌙 Tonight", "🧾 Paper trades", "🧭 Market", "🔎 Analyze a stock", "📡 Scanner", "🧪 Backtest",
                 "📒 Journal & positions", "💸 Charges"])
-TONIGHT, tabs = tabs[0], tabs[1:]
+TONIGHT, PAPER, tabs = tabs[0], tabs[1], tabs[2:]
+
+# ------------------------------------------------------------------ Paper trading
+@st.cache_data(ttl=600, show_spinner=False)
+def load_paper():
+    return paper.load()
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def live_intraday(day_key, latest):
+    from datetime import datetime, time as dtime
+    cutoff = dtime(15, 30) if latest else intraday.SCAN_CUTOFF
+    ideas, _ = intraday.scan(data.get_universe("Nifty 100"), cutoff=cutoff, top=6)
+    return ideas
+
+
+with PAPER:
+    st.markdown("## Paper trading scoreboard")
+    st.caption("Trades are picked and settled automatically by fixed rules, using real prices and real Angel One "
+               "charges. 10:30 AM intraday picks (closed by 3:15 PM) + evening swing picks (held up to 5 days). "
+               "Swing picks are taken even in a RED market and tagged, so we can see if the market filter helps.")
+    pdf = load_paper()
+    if pdf.empty:
+        st.info("No paper trades yet. The first ones are logged automatically at ~10:45 AM IST on the next trading day.")
+    else:
+        closed = pdf[pdf["status"] == "CLOSED"]
+        c = st.columns(5)
+        c[0].metric("Closed trades", len(closed))
+        c[1].metric("Win rate", f"{100 * (closed['net'] > 0).mean():.0f}%" if len(closed) else "-")
+        c[2].metric("Avg result (after charges)", f"{closed['R'].mean():+.2f}R" if len(closed) else "-")
+        c[3].metric("Avg result (before charges)", f"{closed['R_gross'].mean():+.2f}R" if len(closed) else "-")
+        c[4].metric("Net P&L", f"₹{closed['net'].sum():,.0f}" if len(closed) else "-")
+        st.caption("R = the amount risked on a trade (₹100 at your settings). +0.20R means you earn ₹20 per trade on average. "
+                   "If 'before charges' is positive but 'after charges' is negative, the idea works but the trade size is too small for the fees.")
+        live = pdf[pdf["status"].isin(["OPEN", "PENDING"])]
+        st.markdown(f"#### Open & pending ({len(live)})")
+        if len(live):
+            st.dataframe(live[["strategy", "symbol", "side", "status", "signal_date", "entry", "stop", "target", "qty", "why"]],
+                         hide_index=True, width="stretch")
+        perf = paper.performance(pdf)
+        if not perf.empty:
+            st.markdown("#### Scorecard by strategy and market regime")
+            st.dataframe(perf, hide_index=True, width="stretch")
+        if len(closed):
+            cc = closed.copy()
+            cc["equity"] = cc["net"].cumsum()
+            st.line_chart(cc.reset_index(drop=True)["equity"])
+        with st.expander("All paper trades"):
+            st.dataframe(pdf.iloc[::-1], hide_index=True, width="stretch")
+    st.divider()
+    st.markdown("#### ⚡ Intraday scan right now")
+    latest = st.toggle("Use the latest candles instead of the 10:30 snapshot", value=False)
+    if st.button("Scan Nifty 100 intraday"):
+        with st.spinner("Pulling 15-minute candles for 100 stocks..."):
+            ideas = live_intraday(str(date.today()) + str(latest), latest)
+        if not ideas:
+            st.info("No stock passes the opening-range rules right now.")
+        for i in ideas:
+            st.markdown(f"**{'🟢 LONG' if i.side == 'LONG' else '🔴 SHORT'} {i.symbol}** @ ₹{i.entry} · stop ₹{i.stop} · "
+                        f"target ₹{i.target} · qty {i.qty}  \n<small>{i.why} · data for {i.date}</small>", unsafe_allow_html=True)
+        st.caption("Yahoo intraday data is ~15 minutes delayed. Shorts are intraday-only (MIS) and must be closed by 3:15 PM.")
 
 # ------------------------------------------------------------------ Tonight (the one-button flow)
 with TONIGHT:

@@ -37,6 +37,21 @@ def round_trip(buy_price: float, sell_price: float, qty: int) -> dict:
     }
 
 
+def round_trip_intraday(entry: float, exit_: float, qty: int, side: str = "LONG") -> dict:
+    """Same-day trade (MIS). No DP charge; STT 0.025% on the sell leg; stamp 0.003% on the buy leg."""
+    buy, sell = (entry, exit_) if side == "LONG" else (exit_, entry)
+    buy_val, sell_val = buy * qty, sell * qty
+    brok = _brokerage(buy_val) + _brokerage(sell_val)
+    stt = sell_val * 0.025 / 100
+    exch = (buy_val + sell_val) * config.EXCH_TXN_PCT / 100
+    sebi = (buy_val + sell_val) * config.SEBI_FEE_PCT / 100
+    stamp = buy_val * 0.003 / 100
+    gst = (brok + exch + sebi) * config.GST_PCT / 100
+    total = brok + stt + exch + sebi + stamp + gst
+    gross = sell_val - buy_val
+    return {"total_charges": round(total, 2), "gross_pnl": round(gross, 2), "net_pnl": round(gross - total, 2)}
+
+
 def breakeven_move_pct(price: float, qty: int) -> float:
     """How much the stock must rise (in %) just to cover charges."""
     if qty <= 0:

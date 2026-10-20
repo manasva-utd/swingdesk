@@ -15,6 +15,7 @@ EXIT_MODE = "trail"       # "trail" = no fixed exit; stop to entry at +1R, then 
                           # "target" = sell everything at Target 1
 NEAR_HIGH_PCT = 8         # stock must be within 8% of its 52-week high
 AMBER_TRADES = False      # AMBER market = no new buys (tested: AMBER-day trades lost money)
+INTRADAY_EXPOSURE = 25000 # intraday (MIS) margin ~5x: Rs 5k can hold ~Rs 25k of stock for the day. Max loss per trade is still RISK_PER_TRADE_PCT of CAPITAL.
 ENTRY_VALID_DAYS = 2      # cancel the buy order if not filled within 2 sessions
 
 # ---------- Stock filters ----------

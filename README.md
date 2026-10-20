@@ -138,3 +138,20 @@ Know the limits:
 - The free app sleeps after a few days without visits; opening it wakes it in ~30 seconds.
 - `journal.csv` resets whenever the cloud app restarts. Keep your trade log on your laptop for now (next upgrade: store it in Supabase or Google Sheets).
 - Every `git push` to the repo updates the website automatically.
+
+---
+
+## 8. Automatic paper trading (3-4 trades a day, zero effort)
+
+Runs on GitHub Actions (`.github/workflows/paper.yml`), results show in the **🧾 Paper trades** tab.
+
+| Time (IST, Mon-Fri) | What happens |
+|---|---|
+| ~10:45 AM | Logs the top 2 **intraday** picks from the 10:30 snapshot (long or short, Nifty 100) |
+| ~5:00 PM | Closes intraday trades on real 15-min prices (stop / 2R target / 3:15 PM), settles **swing** trades on daily prices, logs 2 new swing picks (held max 5 days) |
+
+- Every trade records result **after** and **before** charges (in R = amount risked). Before-charges tells you if the *idea* works; after-charges tells you if it works *at your size*.
+- Swing picks are taken even in RED markets and tagged with the regime, so the scorecard shows whether the market filter actually helps.
+- Intraday sizing: max loss Rs 100 per trade, position up to Rs 25,000 (≈5x intraday margin on Rs 5k).
+- Starting evidence (replay of the last ~60 sessions, 68 intraday trades): 31% wins, -0.02R before charges, -0.53R after. No edge yet - which is exactly why we paper-trade first.
+- Run manually: `python run_paper.py morning` / `python run_paper.py evening`, or GitHub → Actions → paper-trading → Run workflow.

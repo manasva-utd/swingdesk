@@ -1,0 +1,40 @@
+# Automatic paper trading. Times are UTC: 05:15 UTC = 10:45 IST, 11:30 UTC = 17:00 IST (Mon-Fri).
+# GitHub may start scheduled runs 5-30 min late; the rules always use the 10:30 snapshot, so results don't change.
+name: paper-trading
+on:
+  schedule:
+    - cron: "15 5 * * 1-5"
+    - cron: "30 11 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "morning or evening"
+        default: "evening"
+permissions:
+  contents: write
+concurrency: paper-trading
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Pick job
+        id: pick
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then echo "job=${{ github.event.inputs.job }}" >> $GITHUB_OUTPUT;
+          elif [ "${{ github.event.schedule }}" = "15 5 * * 1-5" ]; then echo "job=morning" >> $GITHUB_OUTPUT;
+          else echo "job=evening" >> $GITHUB_OUTPUT; fi
+      - run: python run_paper.py ${{ steps.pick.outputs.job }} --telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Save trades to the repo
+        run: |
+          git config user.name "swingdesk-bot"
+          git config user.email "swingdesk-bot@users.noreply.github.com"
+          git add paper/paper_trades.csv || true
+          git diff --cached --quiet || (git commit -m "paper: ${{ steps.pick.outputs.job }} $(date -u +%F)" && git push)
