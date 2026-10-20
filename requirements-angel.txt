@@ -1,0 +1,5 @@
+# Only if you switch DATA_SOURCE to "angel" (run on your laptop): pip install -r requirements-angel.txt
+smartapi-python>=1.4
+pyotp>=2.9
+logzero
+websocket-client

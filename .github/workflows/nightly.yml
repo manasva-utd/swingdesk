@@ -1,0 +1,20 @@
+# Free nightly scan on GitHub Actions -> Telegram. Runs Mon-Fri 17:15 IST (11:45 UTC).
+# Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID under repo Settings > Secrets > Actions.
+name: nightly-scan
+on:
+  schedule:
+    - cron: "45 11 * * 1-5"
+  workflow_dispatch:
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pandas numpy yfinance feedparser requests python-dotenv
+      - run: python report.py --universe "Nifty 200" --telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
