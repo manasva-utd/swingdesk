@@ -149,8 +149,8 @@ def evaluate(d: pd.DataFrame, symbol: str, capital: float | None = None, nifty: 
     if nifty is not None and len(nifty) > 200:
         n200 = ind.ema(nifty["Close"], 200).iloc[-1]
         if nifty["Close"].iloc[-1] < n200:
-            p.size_note = ("Nifty is below its 200-day average. In testing, dip-buys still won ~71% of the time in "
-                           "this phase vs ~78% in strong markets - expect a bit more noise.")
+            p.size_note = ("Nifty is below its 200-day average. In testing, dip-buys still won ~76% of the time in "
+                           "this phase (42 trades) vs ~79% in strong markets (118 trades).")
 
     trend_ok = C[0].passed and C[1].passed
     if sig:
