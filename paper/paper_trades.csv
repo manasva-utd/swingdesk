@@ -12,3 +12,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 11,DIP_BUY,BHEL,LONG,RED,PENDING,2026-10-21,,394.8,394.8,348.65,410.2,37,,,,,,,,,6.4,"dip -5.5% in 3d, RSI2 6.4"
 12,DIP_BUY,MOTILALOFS,LONG,RED,PENDING,2026-10-21,,947.85,947.85,836.45,985.0,15,,,,,,,,,6.6,"dip -7.3% in 3d, RSI2 6.6"
 13,DIP_BUY,MCX,LONG,RED,PENDING,2026-10-21,,2979.55,2979.55,2657.2,3087.0,5,,,,,,,,,9.7,"dip -4.0% in 3d, RSI2 9.7"
+14,INTRADAY_ORB,UNIONBANK,LONG,RED,OPEN,2026-10-22,2026-10-22,,184.9,183.5,187.6,221,,,,,,,,,4.6,Above first-hour range 180.21-183.51 and VWAP 182.98; +1.58% vs Nifty -0.42%; volume 2.3x normal
+15,INTRADAY_ORB,HAL,LONG,RED,OPEN,2026-10-22,2026-10-22,,4884.3,4858.75,4935.45,11,,,,,,,,,1.49,Above first-hour range 4765.20-4857.70 and VWAP 4828.47; +0.62% vs Nifty -0.42%; volume 1.4x normal
