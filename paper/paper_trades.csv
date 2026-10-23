@@ -24,3 +24,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 23,DIP_BUY,NYKAA,LONG,RED,PENDING,2026-10-22,,311.75,311.75,281.25,321.9,48,,,,,,,,,6.9,"dip -6.7% in 3d, RSI2 6.9"
 24,DIP_BUY,GROWW,LONG,RED,PENDING,2026-10-22,,180.75,180.75,161.8,187.05,82,,,,,,,,,8.4,"dip -6.9% in 3d, RSI2 8.4"
 25,DIP_BUY,KALYANKJIL,LONG,RED,PENDING,2026-10-22,,511.55,511.55,455.05,530.4,29,,,,,,,,,9.5,"dip -5.0% in 3d, RSI2 9.5"
+26,INTRADAY_ORB,SIEMENS,SHORT,RED,OPEN,2026-10-23,2026-10-23,,3230.1,3257.25,3175.75,11,,,,,,,,,9.84,Below first-hour range 3236.90-3356.10 and VWAP 3264.23; -4.47% vs Nifty -0.75%; volume 2.6x normal
+27,INTRADAY_ORB,AMBUJACEM,SHORT,RED,OPEN,2026-10-23,2026-10-23,,354.7,357.5,349.15,108,,,,,,,,,2.16,Below first-hour range 356.30-362.55 and VWAP 359.18; -2.29% vs Nifty -0.75%; volume 1.4x normal
