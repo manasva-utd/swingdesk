@@ -37,3 +37,4 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 36,DIP_BUY,ADANIPORTS,LONG,RED,PENDING,2026-10-23,,1657.0,1657.0,1519.85,1702.7,9,,,,,,,,,5.7,"dip -3.6% in 3d, RSI2 5.7"
 37,DIP_BUY,LAURUSLABS,LONG,RED,PENDING,2026-10-23,,1915.45,1915.45,1751.8,1970.0,7,,,,,,,,,7.0,"dip -4.8% in 3d, RSI2 7.0"
 38,DIP_BUY,HAL,LONG,RED,PENDING,2026-10-23,,4606.8,4606.8,4252.25,4725.0,3,,,,,,,,,8.9,"dip -4.7% in 3d, RSI2 8.9"
+39,INTRADAY_ORB,HINDALCO,LONG,RED,OPEN,2026-10-26,2026-10-26,,885.5,880.4,895.75,58,,,,,,,,,2.73,Above first-hour range 851.35-885.05 and VWAP 872.56; +1.80% vs Nifty +0.21%; volume 1.7x normal
