@@ -39,3 +39,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 38,DIP_BUY,HAL,LONG,RED,EXPIRED,2026-10-23,,4606.8,4606.8,4252.25,4725.0,3,,,limit not reached next session,,,,,,8.9,"dip -4.7% in 3d, RSI2 8.9"
 39,INTRADAY_ORB,HINDALCO,LONG,RED,CLOSED,2026-10-26,2026-10-26,,885.5,880.4,895.75,58,2026-10-26 11:15,880.4,stop,-295.8,65.22,-361.02,-1.22,-1.0,2.73,Above first-hour range 851.35-885.05 and VWAP 872.56; +1.80% vs Nifty +0.21%; volume 1.7x normal
 40,DIP_BUY,INDIANB,LONG,RED,PENDING,2026-10-26,,807.55,807.55,740.15,830.0,18,,,,,,,,,6.6,"dip -3.4% in 3d, RSI2 6.6"
+41,INTRADAY_ORB,DIVISLAB,LONG,RED,OPEN,2026-10-27,2026-10-27,,9381.0,9324.2,9494.6,5,,,,,,,,,8.8,Above first-hour range 9074.00-9360.00 and VWAP 9274.16; +3.66% vs Nifty -0.13%; volume 2.3x normal
+42,INTRADAY_ORB,AMBUJACEM,SHORT,RED,OPEN,2026-10-27,2026-10-27,,357.1,360.2,350.95,97,,,,,,,,,8.5,Below first-hour range 358.65-368.05 and VWAP 360.30; -2.96% vs Nifty -0.13%; volume 3.3x normal
