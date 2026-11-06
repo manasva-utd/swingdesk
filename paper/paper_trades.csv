@@ -55,3 +55,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 54,DIP_BUY,FEDERALBNK,LONG,AMBER,EXPIRED,2026-11-03,,324.6,324.6,297.2,333.75,46,,,limit not reached next session,,,,,,7.6,"dip -4.0% in 3d, RSI2 7.6"
 55,INTRADAY_ORB,HDFCAMC,LONG,AMBER,CLOSED,2026-11-05,2026-11-05,,2640.8,2625.35,2671.7,19,2026-11-05 10:30,2625.35,stop,-293.55,64.8,-358.35,-1.22,-1.0,10.91,Above first-hour range 2575.90-2637.50 and VWAP 2616.00; +5.42% vs Nifty +1.78%; volume 8.2x normal
 56,INTRADAY_ORB,ICICIBANK,LONG,AMBER,CLOSED,2026-11-05,2026-11-05,,1466.9,1460.45,1479.8,46,2026-11-05 13:00,1479.8,target,593.4,71.15,522.25,1.76,2.0,3.67,Above first-hour range 1446.30-1465.80 and VWAP 1458.15; +3.01% vs Nifty +1.78%; volume 3.7x normal
+57,INTRADAY_ORB,MOTHERSON,SHORT,GREEN,OPEN,2026-11-06,2026-11-06,,153.9,155.1,151.5,248,,,,,,,,,27.15,Below first-hour range 154.63-166.88 and VWAP 156.86; -8.39% vs Nifty +0.66%; volume 6.3x normal
+58,INTRADAY_ORB,CUMMINSIND,SHORT,GREEN,OPEN,2026-11-06,2026-11-06,,3932.3,3966.45,3864.05,8,,,,,,,,,11.33,Below first-hour range 3935.00-4050.70 and VWAP 3957.05; -3.12% vs Nifty +0.66%; volume 4.2x normal
