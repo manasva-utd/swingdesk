@@ -66,3 +66,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 65,INTRADAY_ORB,ENRIN,LONG,GREEN,CLOSED,2026-11-13,2026-11-13,,3178.1,3155.3,3223.7,13,2026-11-13 13:00,3155.3,stop,-296.4,61.68,-358.08,-1.21,-1.0,15.11,Above first-hour range 3032.90-3149.80 and VWAP 3126.64; +4.62% vs Nifty -0.42%; volume 3.9x normal
 66,INTRADAY_ORB,SIEMENS,LONG,GREEN,CLOSED,2026-11-13,2026-11-13,,3736.0,3706.65,3794.65,10,2026-11-13 11:30,3706.65,stop,-293.5,60.28,-353.78,-1.21,-1.0,3.19,Above first-hour range 3635.10-3719.80 and VWAP 3702.59; +1.77% vs Nifty -0.42%; volume 1.5x normal
 67,DIP_BUY,HCLTECH,LONG,GREEN,PENDING,2026-11-12,,1341.35,1341.35,1222.95,1380.8,11,,,,,,,,,9.3,"dip -4.1% in 3d, RSI2 9.3"
+68,INTRADAY_ORB,MAXHEALTH,LONG,GREEN,OPEN,2026-11-16,2026-11-16,,993.85,987.45,1006.65,46,,,,,,,,,13.4,Above first-hour range 950.00-991.70 and VWAP 984.06; +4.94% vs Nifty +0.47%; volume 3.7x normal
+69,INTRADAY_ORB,ITC,LONG,GREEN,OPEN,2026-11-16,2026-11-16,,293.35,291.85,296.4,197,,,,,,,,,7.06,Above first-hour range 284.00-292.90 and VWAP 291.16; +2.93% vs Nifty +0.47%; volume 2.9x normal
