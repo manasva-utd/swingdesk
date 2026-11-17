@@ -70,3 +70,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 69,INTRADAY_ORB,ITC,LONG,GREEN,CLOSED,2026-11-16,2026-11-16,,293.35,291.85,296.4,197,2026-11-16 15:00,294.55,3:15 PM exit,236.4,67.64,168.76,0.57,0.8,7.06,Above first-hour range 284.00-292.90 and VWAP 291.16; +2.93% vs Nifty +0.47%; volume 2.9x normal
 70,DIP_BUY,GRASIM,LONG,GREEN,PENDING,2026-11-13,,2961.3,2961.3,2743.25,3034.0,5,,,,,,,,,3.6,"dip -4.3% in 3d, RSI2 3.6"
 71,DIP_BUY,HAL,LONG,GREEN,PENDING,2026-11-13,,4670.95,4670.95,4254.35,4809.8,3,,,,,,,,,4.7,"dip -3.8% in 3d, RSI2 4.7"
+72,INTRADAY_ORB,VAML,LONG,GREEN,OPEN,2026-11-17,2026-11-17,,394.3,391.3,400.25,100,,,,,,,,,2.81,Above first-hour range 382.25-393.50 and VWAP 391.36; +2.66% vs Nifty +0.43%; volume 1.3x normal
+73,INTRADAY_ORB,COALINDIA,SHORT,GREEN,OPEN,2026-11-17,2026-11-17,,393.9,395.55,390.6,181,,,,,,,,,2.38,Below first-hour range 394.00-398.35 and VWAP 395.24; -0.91% vs Nifty +0.43%; volume 1.8x normal
