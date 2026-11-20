@@ -82,3 +82,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 81,DIP_BUY,LGEINDIA,LONG,GREEN,PENDING,2026-11-18,,1627.85,1627.85,1472.25,1679.7,9,,,,,,,,,5.7,"dip -3.8% in 3d, RSI2 5.7"
 82,DIP_BUY,TITAN,LONG,GREEN,PENDING,2026-11-18,,4526.5,4526.5,4161.65,4648.1,3,,,,,,,,,6.3,"dip -4.1% in 3d, RSI2 6.3"
 83,DIP_BUY,APLAPOLLO,LONG,GREEN,PENDING,2026-11-18,,2102.6,2102.6,1926.75,2161.2,7,,,,,,,,,8.7,"dip -4.0% in 3d, RSI2 8.7"
+84,INTRADAY_ORB,LTM,LONG,GREEN,OPEN,2026-11-20,2026-11-20,,4255.0,4227.35,4310.3,10,,,,,,,,,12.73,Above first-hour range 4070.40-4252.10 and VWAP 4207.20; +4.29% vs Nifty +0.05%; volume 4.2x normal
+85,INTRADAY_ORB,TECHM,LONG,GREEN,OPEN,2026-11-20,2026-11-20,,1773.6,1764.15,1792.45,31,,,,,,,,,6.99,Above first-hour range 1715.20-1770.50 and VWAP 1758.10; +2.94% vs Nifty +0.05%; volume 2.4x normal
