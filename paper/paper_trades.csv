@@ -97,3 +97,5 @@ id,strategy,symbol,side,regime,status,signal_date,entry_date,plan_entry,entry,st
 96,INTRADAY_ORB,BSE,LONG,GREEN,CLOSED,2026-11-26,2026-11-26,,3930.0,3903.3,3983.4,11,2026-11-26 13:30,3983.4,target,587.4,62.6,524.8,1.79,2.0,5.79,Above first-hour range 3813.90-3898.00 and VWAP 3889.88; +4.10% vs Nifty +0.34%; volume 1.5x normal
 97,DIP_BUY,GVT&D,LONG,GREEN,PENDING,2026-11-25,,3904.9,3904.9,3409.55,4070.0,3,,,,,,,,,3.2,"dip -6.4% in 3d, RSI2 3.2"
 98,DIP_BUY,ADANIENSOL,LONG,GREEN,PENDING,2026-11-25,,1358.5,1358.5,1210.05,1408.0,11,,,,,,,,,7.6,"dip -4.4% in 3d, RSI2 7.6"
+99,INTRADAY_ORB,SOLARINDS,LONG,GREEN,OPEN,2026-11-27,2026-11-27,,19339.0,19235.8,19545.35,2,,,,,,,,,18.87,Above first-hour range 18310.00-19074.00 and VWAP 18966.55; +5.97% vs Nifty -0.32%; volume 4.2x normal
+100,INTRADAY_ORB,HAL,LONG,GREEN,OPEN,2026-11-27,2026-11-27,,5108.0,5081.8,5160.45,11,,,,,,,,,13.09,Above first-hour range 4907.00-5075.00 and VWAP 5042.53; +4.04% vs Nifty -0.32%; volume 4.5x normal
